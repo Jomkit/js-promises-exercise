@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Number Facts{% endblock title %}
+
+{% block content%}
+    <div class="container-fluid">
+        <div class="col-8 bg-info m-auto mt-3 p-3 rounded text-light" id="numbers-api">
+        
+            <h1>Number Facts</h1>
+            <p class="lead" id="fav-num">
+                My favorite number is 5.
+            </p>
+            
+            <h2>Five Numbers</h2>
+            <p class="lead" id="mult-num">
+            </p>
+        </div>
+        
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="/static/numbers.js"></script>
+{% endblock script %}

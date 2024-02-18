@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}
+Deck of Cards
+{% endblock title %}
+
+{% block content %}
+<h1>Deck of Cards</h1>
+<div class="container bg-success mx-5 p-3 rounded text-center" style="height: 500px">
+<button class="btn btn-dark" type="button">Draw a Card!</button>
+    <div class="col-fluid" id="card-field">
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block script %}
+<script src="static/cards.js"></script>
+{% endblock script %}

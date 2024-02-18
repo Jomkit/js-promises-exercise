@@ -1,10 +1,5 @@
-function getRandomInt(max) {
-    return Math.floor(Math.random() * max);
-  }
 /****** Number Facts *******/
 const num_url = 'http://numbersapi.com';
-
-
 
 // 1. Make requests to Numbers API to get a fact about your favorite number
 // Make sure response is JSON
