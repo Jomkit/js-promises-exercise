@@ -1,35 +1,36 @@
-const base = "https://pokeapi.co/api/v2"
 
-let n1;
-let sprite;
+class pokemonAsync{
+    constructor(){
+        this.base = "https://pokeapi.co/api/v2";
+    }
+    async randomPokemon(){
+        let res = await axios.get(`${this.base}/pokemon?limit=1400`);
+        let rnd = Math.floor(Math.random() * res.data.count);
+        let randomPokemon = await axios.get(res.data.results[rnd].url);
+        // console.log(randomPokemon.data);
+        return randomPokemon.data;
+    }
+    async putPokemonOnPage(){
+        let pokemon = await this.randomPokemon();
+        let flavor_text = await axios.get(pokemon.species.url); 
+        let sprite = pokemon.sprites['front_default'];
+        let name = pokemon.name;
+        let entries = flavor_text.data.flavor_text_entries;
 
-function getPokemon() {
+        // console.log(pokemon.name, pokemon.sprites['front_default']);
+        // console.log(flavor_text.data.flavor_text_entries[2]);
 
-    axios.get(`${base}/pokemon?limit=1300`)
-    .then(res => {
-        let rnd = Math.floor(Math.random() * 1025);
-        
-        n1 = res.data.results[rnd].name;    
-        return axios.get(res.data.results[rnd].url);
-    })
-    .then(res => {
-        sprite = res.data.sprites.front_default;
-        return axios.get(res.data.species.url);
-    })
-    .then(res => {
-        let entries = res.data.flavor_text_entries;
-
-        for(entry in entries){
+        for(let entry in entries){
             if(entries[entry]['language']['name'] == 'en'){
-                flavor_text = entries[entry]['flavor_text'];
-                console.log(n1 + ": " + flavor_text);
+                let text = entries[entry]['flavor_text'];
+                // console.log(name + ": " + text);
                 
-                html = 
+                let html = 
                 `<div class="card bg-info" style="width: 18rem;">
                 <img src="${sprite}" class="card-img-top mx-auto" style="height:100px; width:100px" alt="pokemon sprite">
                 <div class="card-body">
-                <h5 class="card-title">${n1}</h5>
-                <p class="card-text">${flavor_text}</p>
+                <h5 class="card-title">${name}</h5>
+                <p class="card-text">${text}</p>
                 </div>
                 </div>`;
                 
@@ -38,7 +39,14 @@ function getPokemon() {
                 return;
             }
         }
-    })
-} 
 
-$('button').click(getPokemon);
+    }
+    async thrice(){
+        for(let i=0; i < 3; i++){
+            await this.putPokemonOnPage();
+        }
+    }
+}
+
+let pa = new pokemonAsync();
+$('button').click(async () => {pa.thrice()});   
